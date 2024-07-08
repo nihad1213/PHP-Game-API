@@ -26,6 +26,7 @@ RewriteCond %{REQUEST_FILENAME} !-l:**This set of RewriteCond directives is typi
         If this condition is true (meaning the symbolic link does not exist), the rewrite rule associated with it will be applied.
 
 These conditions are often used to redirect or rewrite URLs only if the requested resource (%{REQUEST_FILENAME}) does not correspond to an existing file, directory, or symbolic link. This allows you to avoid rewriting URLs that should directly serve existing files or directories on your server.
+
 **RewriteRule . index.php: **directive in Apache's mod_rewrite context is used to redirect or rewrite all incoming requests to a single entry point, typically used in PHP applications for routing purposes. Let's break down what this rule does:
 
     RewriteRule: This starts a directive that specifies a rule for rewriting URLs.
