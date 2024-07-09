@@ -1,6 +1,6 @@
 # PHP RESTful API About Video Games
 ***
-# .htaccess file
+# api/.htaccess file
 ### Purpose
 
 The following Apache directives are used to enable URL rewriting and direct all incoming requests to a single entry point (`index.php`). This setup is commonly used in PHP applications for centralized routing and request handling.
