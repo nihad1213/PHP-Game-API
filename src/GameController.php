@@ -1,5 +1,4 @@
 <?php
-
 class GameController {
 
     public function __construct(private GameGateway $gateway) {
@@ -15,7 +14,9 @@ class GameController {
 
             } else if ($method == "POST") {
                 
-                echo "Created";
+                $data = (array) json_decode(file_get_contents("php://input"), true);
+                $id = $this->gateway->create($data);
+                $this->respondCreated($id);
                 
             } else {
 
@@ -25,11 +26,18 @@ class GameController {
         
         // If there is ID
         } else {
+
+            $game = $this->gateway->get($id);
+
+            if ($game == false) {
+                $this->respondNotFound($id);
+            }
+
             switch ($method) {
 
                 case "GET":
 
-                    echo json_encode($this->gateway->get($id));
+                    echo json_encode($game);
                     break;
 
                 case "PATCH":
@@ -53,5 +61,19 @@ class GameController {
         http_response_code(405);
         header("Allow: $allowedMethods");
     }
+
+    private function respondNotFound(string $id): void {
+        ob_start();
+        http_response_code(404);
+        echo json_encode(["error" => "Game with ID $id is not found!"]);
+        ob_end_flush();
+        exit;
+    }
+
+    private function respondCreated(string $id): void {
+        http_response_code(201);
+        echo json_encode(["success" => "Game created!", "id" => $id]);
+    }
+    
 
 }
