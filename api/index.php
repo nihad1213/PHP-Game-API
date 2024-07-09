@@ -9,6 +9,9 @@ header("Content-type: application/json; charset=UTF-8");
 
 require dirname(__DIR__) . "/vendor/autoload.php";
 
+//Set error
+set_error_handler("ErrorHandler::handleError");
+
 //Set Exception
 set_exception_handler("ErrorHandler::handleException");
 

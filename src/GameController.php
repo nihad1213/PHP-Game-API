@@ -15,6 +15,13 @@ class GameController {
             } else if ($method == "POST") {
                 
                 $data = (array) json_decode(file_get_contents("php://input"), true);
+                $errors = $this->getValidationErrors($data);
+                
+                if (!empty($errors)) {
+                    $this->respondUnprocessableEntity($errors);
+                    return;
+                }
+
                 $id = $this->gateway->create($data);
                 $this->respondCreated($id);
                 
@@ -41,13 +48,33 @@ class GameController {
                     break;
 
                 case "PATCH":
+                    $data = (array) json_decode(file_get_contents("php://input"), true);
+                    $errors = $this->getValidationErrors($data, false);
+                    
+                    if (!empty($errors)) {
+                        $this->respondUnprocessableEntity($errors);
+                        return;
+                    }
+                    
+                    try {
+                        $this->gateway->update($id, $data);
+                        echo json_encode(["success" => "Game updated!", "id" => $id]);
+                    } catch (Exception $e) {
+                        http_response_code(500);
+                        echo json_encode(["error" => $e->getMessage()]);
+                    }
 
-                    echo "update $id";
                     break;
                 
                 case "DELETE":
 
-                    echo "Delete {$id}";
+                    try {
+                        $this->gateway->delete($id);
+                        echo json_encode(["success" => "Game deleted!", "id" => $id]);
+                    } catch (Exception $e) {
+                        http_response_code(500);
+                        echo json_encode(["error" => $e->getMessage()]);
+                    }
                     break;
                 
                 default:
@@ -55,6 +82,12 @@ class GameController {
                     $this->respondMethodNotAllowed("GET, PATCH, DELETE");
             }
         }
+    }
+
+
+    private function respondUnprocessableEntity(array $errors): void {
+        http_response_code(422);
+        echo json_encode(["errors"=>$errors]);
     }
 
     private function respondMethodNotAllowed(string $allowedMethods): void {
@@ -74,6 +107,25 @@ class GameController {
         http_response_code(201);
         echo json_encode(["success" => "Game created!", "id" => $id]);
     }
+
+    private function getValidationErrors(array $data, bool $is_new = true): array {
+        $errors = [];
+    
+        // Check if title is empty when creating a new entry
+        if ($is_new && !empty($data['title'])) {
+            $errors[] = "Title is required.";
+        }
+    
+        // Validate status if provided
+        if (isset($data['status'])) {
+            if (!filter_var($data['status'], FILTER_VALIDATE_BOOLEAN)) {
+                $errors[] = "Status must be true or false.";
+            }
+        }
+    
+        return $errors;
+    }
+    
     
 
 }
