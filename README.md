@@ -29,4 +29,13 @@ RewriteRule . index.php
 ***
 # composer.json file
 With the help of this file we can autload our files from src folder.
+```
+{
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
+```
 
