@@ -2,14 +2,17 @@
 
 class GameController {
 
+    public function __construct(private GameGateway $gateway) {
+
+    }
     public function processRequest(string $method, ?string $id): void {
         // If there is no ID
         if ($id === null) {
             
             if ($method == "GET") {
             
-                echo "index Game";
-            
+                echo json_encode($this->gateway->getAll());
+
             } else if ($method == "POST") {
                 
                 echo "Created";

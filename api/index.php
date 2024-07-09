@@ -12,6 +12,9 @@ require dirname(__DIR__) . "/vendor/autoload.php";
 //Set Exception
 set_exception_handler("ErrorHandler::handleException");
 
+$dotnev = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotnev->load();
+
 // Create varible. This variable is equals to our URI
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
@@ -24,13 +27,14 @@ $resource = $parts[3];
 $id = $parts[4] ?? null;
 
 // Add database
-$database = new Database("localhost", "game_db", "game_db_user", "Nihad1213!@");
+$database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
 $database->getConnect();
 
 // Router part
 switch ($resource) {
     case "games":
-        $controller = new GameController;
+        $gameGateway = new GameGateway($database);
+        $controller = new GameController($gameGateway);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
         break;
     case "developers":
