@@ -1,0 +1,13 @@
+{
+    "title": "Silent Hill 2",
+    "genre": "Survival horror",
+    "platform": ["PlayStation 2", "Xbox", "PC"],
+    "developer_ID": 1,
+    "publisher_ID": 1,
+    "release_data": "2001-09-24",
+    "status": true,
+    "rating": "Mature",
+    "price": 19.99,
+    "description": "Silent Hill 2 is a survival horror video game...",
+    "cover_image": "silent_hill_2_cover.jpg"
+}
