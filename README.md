@@ -25,6 +25,3 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule . index.php
-***
-# composer.json file
-With the help of this file we can autload our files from src folder.
