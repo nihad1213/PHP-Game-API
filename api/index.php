@@ -23,6 +23,9 @@ $resource = $parts[3];
 // If there is no Id $id will be null
 $id = $parts[4] ?? null;
 
+// Add database
+$database = new Database("localhost", "game_db", "game_db_user", "Nihad1213!@");
+$database->getConnect();
 
 // Router part
 switch ($resource) {

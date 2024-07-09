@@ -14,6 +14,10 @@ class GameController {
                 
                 echo "Created";
                 
+            } else {
+
+                $this->respondMethodNotAllowed("POST, GET");
+
             }
         
         // If there is ID
@@ -34,8 +38,17 @@ class GameController {
 
                     echo "Delete {$id}";
                     break;
+                
+                default:
+                    
+                    $this->respondMethodNotAllowed("GET, PATCH, DELETE");
             }
         }
+    }
+
+    private function respondMethodNotAllowed(string $allowedMethods): void {
+        http_response_code(405);
+        header("Allow: $allowedMethods");
     }
 
 }
