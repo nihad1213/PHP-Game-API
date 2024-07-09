@@ -1,6 +1,6 @@
 # PHP RESTful API About Video Games
 ***
-# .htaccess file
+# api/.htaccess file
 ### Purpose
 
 The following Apache directives are used to enable URL rewriting and direct all incoming requests to a single entry point (`index.php`). This setup is commonly used in PHP applications for centralized routing and request handling.
@@ -25,3 +25,17 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-l
 RewriteRule . index.php
+```
+***
+# composer.json file
+With the help of this file we can autload our files from src folder.
+```
+{
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
+```
+

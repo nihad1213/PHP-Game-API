@@ -32,6 +32,7 @@ switch ($resource) {
     case "games":
         $controller = new GameController;
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
+        break;
     case "developers":
         break;
     case "publishers":
