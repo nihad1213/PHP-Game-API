@@ -1,5 +1,4 @@
 <?php
-
 class GameGateway {
     private PDO $conn;
     
@@ -99,7 +98,7 @@ class GameGateway {
         }
 
         // Handle file upload
-        $targetFilePath = null;
+        $fileName = null;
         if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
             $targetDir = __DIR__ . "/../uploads/games/";
 
@@ -136,7 +135,7 @@ class GameGateway {
         $stmt->bindValue(':rating', $rating, PDO::PARAM_STR);
         $stmt->bindValue(':price', $price, PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
-        $stmt->bindValue(':cover_image', $targetFilePath, PDO::PARAM_STR);
+        $stmt->bindValue(':cover_image', $fileName, PDO::PARAM_STR);
     
         $stmt->execute();
     
@@ -237,7 +236,4 @@ class GameGateway {
         // Optionally, you can handle success response here
         // For example, setting HTTP response code or logging success
     }
-    
-    
-    
 }
