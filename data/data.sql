@@ -48,3 +48,14 @@ CREATE TABLE games(
     FOREIGN KEY (developer_ID) REFERENCES developers(id),
     FOREIGN KEY (publisher_ID) REFERENCES publishers(id)
 );
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(127) NOT NULL,
+    username VARCHAR(126) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+    api_key VARCHAR(32) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (username),
+    UNIQUE (api_key)
+);

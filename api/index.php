@@ -29,9 +29,26 @@ $resource = $parts[3];
 // If there is no Id $id will be null
 $id = $parts[4] ?? null;
 
+if (empty($_SERVER['HTTP_X_API_KEY'])) {
+    http_response_code(400  );
+    echo json_encode(["error" => "missing api key"]);
+    exit;
+}
+
+$api_key = $_SERVER['HTTP_X_API_KEY'];
+
 // Add database
 $database = new Database($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
 $database->getConnect();
+
+$userGateway = new UserGateway($database);
+if ($userGateway->getByAPIKey($api_key) === false) {
+
+    http_response_code(401);
+    echo json_encode(["message" => "invalid API KEY"]);
+    exit;
+
+}
 
 // Router part
 switch ($resource) {
