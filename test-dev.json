@@ -1,0 +1,10 @@
+{
+    "name": "Example Developer",
+    "founded": "2000-01-01",
+    "headquarters": "Example City",
+    "ceo": "John Doe",
+    "website": "https://example.com",
+    "contact_email": "contact@example.com",
+    "number_of_employees": 100,
+    "notable_games": "Example Game 1, Example Game 2"
+}

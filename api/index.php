@@ -15,7 +15,6 @@ $resource = $parts[3];
 
 // If there is no Id $id will be null
 $id = $parts[4] ?? null;
-
 if (empty($_SERVER['HTTP_X_API_KEY'])) {
     http_response_code(400  );
     echo json_encode(["error" => "missing api key"]);
@@ -44,12 +43,19 @@ switch ($resource) {
         $controller = new GameController($gameGateway);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
         break;
+    
     case "developers":
+        $devGateway = new DeveloperGateway($database);
+        $controller = new DeveloperController($devGateway);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
         break;
+
     case "publishers":
+        $publishGateway = new PublisherGateway($database);
+        $controller = new PublisherController($publishGateway);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $id);
         break;
     default:
         http_response_code(404);
         break;
 }
-
